@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hadislar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Noto+Serif:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06211a; --bg2:#0b3a2d; --card:rgba(255,255,255,.07); --card-b:rgba(230,193,106,.28);
+  --text:#f3efe2; --muted:#b9c9bf; --gold:#e6c16a; --gold2:#b88a2e; --accent:#16a37f;
+  --shadow:0 20px 60px rgba(0,0,0,.45); --chip:rgba(230,193,106,.14); --blockbg:rgba(0,0,0,.22);
+}
+:root[data-theme="light"]{
+  --bg:#f6f1e3; --bg2:#e4efe6; --card:rgba(255,255,255,.75); --card-b:rgba(184,138,46,.35);
+  --text:#17221d; --muted:#51635a; --gold:#a8791c; --gold2:#7d5a12; --accent:#0e7a5f;
+  --shadow:0 20px 50px rgba(40,60,50,.18); --chip:rgba(168,121,28,.12); --blockbg:rgba(14,122,95,.07);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{
+  font-family:'Inter','Noto Serif',system-ui,sans-serif; color:var(--text); min-height:100vh;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23e6c16a' stroke-opacity='.10' stroke-width='1'%3E%3Cpath d='M40 4l9 21 21-9-9 21 21 9-21 9 9 21-21-9-9 21-9-21-21 9 9-21-21-9 21-9-9-21 21 9z'/%3E%3Ccircle cx='40' cy='40' r='9'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(1200px 700px at 80% -10%, var(--bg2), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, var(--bg2), transparent 60%),
+    var(--bg);
+  padding:calc(16px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));
+  transition:background .4s,color .4s;
+}
+.wrap{max-width:760px;margin:0 auto;animation:fadeUp .9s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.icon-btn{
+  position:relative;border:1px solid var(--card-b);background:var(--card);color:var(--text);
+  height:46px;min-width:46px;padding:0 14px;border-radius:14px;font:600 15px Inter,sans-serif;cursor:pointer;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:inline-flex;align-items:center;gap:8px;justify-content:center;
+}
+.badge{background:var(--gold);color:#241a00;border-radius:99px;font-size:12px;padding:2px 8px;font-weight:700}
+header{text-align:center;margin:26px 0 8px}
+h1{font-family:'Amiri',serif;font-size:clamp(40px,10vw,58px);margin:0;color:var(--gold);letter-spacing:1px;text-shadow:0 0 28px rgba(230,193,106,.25)}
+.sub{color:var(--muted);margin:4px 0 0;font-size:15px}
+.author{
+  margin:18px auto 6px;width:fit-content;padding:8px 26px 10px;border-radius:999px;text-align:center;
+  border:1px solid var(--card-b);background:linear-gradient(135deg,var(--chip),transparent);
+}
+.author small{display:block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.author span{font-family:'Great Vibes',cursive;font-size:36px;line-height:1.1;color:var(--gold);text-shadow:0 0 18px rgba(230,193,106,.55),0 0 2px rgba(230,193,106,.9)}
+.tabs{display:flex;gap:8px;margin:22px 0 14px;padding:5px;border-radius:16px;background:var(--card);border:1px solid var(--card-b)}
+.tab{flex:1;border:0;background:transparent;color:var(--muted);padding:12px 8px;border-radius:12px;font:600 14px Inter,sans-serif;cursor:pointer;transition:.25s}
+.tab.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c1400;box-shadow:0 6px 18px rgba(184,138,46,.35)}
+.card{
+  position:relative;border-radius:26px;padding:24px 20px;background:var(--card);border:1px solid var(--card-b);
+  box-shadow:var(--shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);overflow:hidden;
+  transition:opacity .35s,transform .35s;
+}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card.out{opacity:0;transform:translateY(10px)}
+.ar{font-family:'Amiri',serif;direction:rtl;text-align:right;font-size:clamp(25px,6.4vw,32px);line-height:2.1;margin:0 0 14px}
+.tr{font-family:'Noto Serif',serif;font-size:19px;line-height:1.75;margin:0 0 16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.chip{background:var(--chip);border:1px solid var(--card-b);color:var(--gold);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600}
+.block{margin-top:16px;border-radius:18px;padding:14px 16px;background:var(--blockbg);border-left:4px solid var(--gold)}
+.block h3{margin:0 0 6px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
+.block p{margin:0;font-family:'Noto Serif',serif;font-size:17px;line-height:1.7}
+.block.ex{border-left-color:var(--accent)} .block.ex h3{color:var(--accent)}
+.note{margin-top:16px;font-size:14px;color:var(--muted);line-height:1.6}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{
+  flex:1 1 140px;min-height:52px;border:1px solid var(--card-b);background:var(--card);color:var(--text);
+  border-radius:16px;font:600 16px Inter,sans-serif;cursor:pointer;transition:.2s;
+}
+.btn:active{transform:scale(.97)}
+.btn.saved{background:var(--chip);color:var(--gold);border-color:var(--gold)}
+.main{
+  position:relative;overflow:hidden;width:100%;min-height:64px;margin-top:18px;border:0;border-radius:20px;cursor:pointer;
+  font:700 19px Inter,sans-serif;color:#1c1400;background:linear-gradient(135deg,#f3d98a,var(--gold) 45%,var(--gold2));
+  box-shadow:0 12px 30px rgba(184,138,46,.4);transition:.2s;
+}
+.main::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:shine 3.6s infinite}
+@keyframes shine{to{left:140%}}
+.main:active{transform:scale(.98)}
+.skel div{height:18px;border-radius:9px;margin:14px 0;background:linear-gradient(90deg,var(--chip),rgba(255,255,255,.18),var(--chip));background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+.err{background:rgba(214,90,70,.14);border:1px solid rgba(214,90,70,.4);padding:12px 14px;border-radius:14px;font-size:14.5px;margin-bottom:14px}
+.foot{text-align:center;color:var(--muted);font-size:12.5px;margin-top:26px;line-height:1.6}
+/* Saqlanganlar paneli */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.3s;z-index:20}
+.overlay.on{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;z-index:30;transform:translateY(105%);transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  background:var(--bg);border-top:1px solid var(--gold);border-radius:28px 28px 0 0;padding:18px 16px calc(28px + env(safe-area-inset-bottom));
+  box-shadow:0 -20px 60px rgba(0,0,0,.5);max-width:760px;margin:0 auto;
+}
+.drawer.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.dh h2{margin:0;font-family:'Amiri',serif;color:var(--gold);font-size:28px}
+.item{border:1px solid var(--card-b);background:var(--card);border-radius:18px;padding:14px;margin-bottom:12px}
+.item .ia{font-family:'Amiri',serif;direction:rtl;text-align:right;font-size:22px;line-height:1.9;margin:0 0 6px}
+.item .it{font-family:'Noto Serif',serif;font-size:16px;line-height:1.65;margin:0 0 8px}
+.item .meta{font-size:13px;color:var(--gold);margin-bottom:10px}
+.item .row{display:flex;gap:8px}
+.item .row button{flex:1;min-height:44px;border-radius:12px;border:1px solid var(--card-b);background:transparent;color:var(--text);font:600 14px Inter,sans-serif;cursor:pointer}
+.item .row .del{color:#ff8a78}
+.empty{text-align:center;color:var(--muted);padding:30px 10px;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,40px);opacity:0;background:var(--gold);color:#1c1400;font-weight:700;padding:12px 20px;border-radius:999px;z-index:50;transition:.3s;font-size:14px}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <button class="icon-btn" id="themeBtn" aria-label="Rejim">🌙</button>
+    <button class="icon-btn" id="savedBtn">★ Saqlanganlar <span class="badge" id="cnt">0</span></button>
+  </div>
+
+  <header>
+    <h1>الحديث الشريف</h1>
+    <p class="sub">Hadislar: roviy, manba, sharh va misol bilan</p>
+    <div class="author"><small>Muallif</small><span>Muhammad Muso</span></div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab on" data-mode="hanafi">Hanafiy · sharhli</button>
+    <button class="tab" data-mode="web">Internetdan · barcha kitoblar</button>
+  </div>
+
+  <div id="area"></div>
+  <button class="main" id="nextBtn">✦ Yangi hadis</button>
+
+  <p class="foot">«Hanafiy» bo'limidagi sharh va misollar umumiy ma'no tushuntirishi. Fatvo uchun ishonchli ulamo yoki muftiyotga murojaat qiling.<br>Internet bo'limi ochiq Hadith API (fawazahmed0) dan olinadi.</p>
+</div>
+
+<div class="overlay" id="ov"></div>
+<aside class="drawer" id="drawer" aria-label="Saqlanganlar">
+  <div class="dh"><h2>Saqlanganlar</h2><button class="icon-btn" id="closeBtn">✕ Yopish</button></div>
+  <div id="savedList"></div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== Ichki ro'yxat: hanafiylar dalil keltiradigan va umumiy hadislar ===== */
+const CURATED = [
+{id:"c1",
+ ar:"إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+ tr:"Amallar faqat niyatlarga bog'liqdir. Har kishiga faqat niyat qilgani bo'ladi.",
+ rawi:"Umar ibn Xattob (r.a.)", src:"Sahih al-Buxoriy, 1; Sahih Muslim, 1907", grade:"Sahih (Buxoriy, Muslim)",
+ sharh:"Ulamolar bu hadisni islomning asosiy qoidalaridan deb hisoblaydilar. Imom Shofe'iy va Imom Ahmaddan bu hadis ilmning katta bir qismini qamrab olgani naql qilingan. Hanafiy mazhabida niyat ibodatlarni odatdan ajratadi; ammo tahoratning to'g'ri bo'lishi uchun niyat shart emas, tayammumda esa shart deyilgan.",
+ misol:"Ikki kishi bir xil harakat qiladi: biri sadaqani Alloh roziligi uchun beradi, ikkinchisi maqtov uchun. Tashqaridan bir xil, ajri esa niyatiga qarab farq qiladi."},
+{id:"c2",
+ ar:"صَلُّوا كَمَا رَأَيْتُمُونِي أُصَلِّي",
+ tr:"Meni qanday namoz o'qiyotganimni ko'rgan bo'lsangiz, shunday namoz o'qinglar.",
+ rawi:"Molik ibn Huvayris (r.a.)", src:"Sahih al-Buxoriy, 631", grade:"Sahih (Buxoriy)",
+ sharh:"Ulamolar namoz tartibini Rasululloh ﷺ amalidan olish kerakligiga shu hadisni asos qiladilar. Mazhablar namozning ayrim tafsilotlarida (qo'l qo'yish, qiroat va hokazo) sahih dalillarga tayanib farqlanadi.",
+ misol:"Yangi o'rganuvchi namozni faqat eshitgan gapiga qarab emas, ishonchli ustozdan ko'rib, amaliy o'rganadi."},
+{id:"c3",
+ ar:"أَسْفِرُوا بِالْفَجْرِ فَإِنَّهُ أَعْظَمُ لِلأَجْرِ",
+ tr:"Bomdod namozini yorishtirib o'qinglar, chunki bu ajrni ko'proq qiladi.",
+ rawi:"Rofi' ibn Xadij (r.a.)", src:"Sunan at-Termiziy, 154; Sunan Abu Dovud, 424", grade:"Termiziy: hasan sahih",
+ sharh:"Hanafiy mazhabida bomdodni (yorug'lik yoyilgach) \"isfor\"da o'qish mustahab, deyiladi va shu hadis dalil qilinadi. Boshqa mazhablar esa \"G'alas\" (qorong'uda) o'qish haqidagi hadislarga tayanadi, ya'ni bu ixtilof mustahablik darajasida.",
+ misol:"Hanafiy masjidlarida bomdod jamoati yorug' bo'lgach, quyosh chiqishidan oldin qoldirilgan vaqt ichida o'qiladi."},
+{id:"c4",
+ ar:"إِنَّ اللَّهَ زَادَكُمْ صَلاةً وَهِيَ الْوِتْرُ فَصَلُّوهَا فِيمَا بَيْنَ صَلاةِ الْعِشَاءِ إِلَى صَلاةِ الصُّبْحِ",
+ tr:"Alloh sizlarga bir namozni ziyoda qildi, u vitrdir. Uni xufton bilan bomdod orasida o'qinglar.",
+ rawi:"Xorija ibn Huzofa (r.a.)", src:"Sunan at-Termiziy, 452; Sunan Abu Dovud, 1418", grade:"Sunan sohiblari rivoyati; ulamolar sanadini turlicha baholagan",
+ sharh:"Abu Hanifa mazhabida vitr namozi vojib hisoblanadi, bu hadis va shunga o'xshash buyruq ma'nosidagi rivoyatlar dalil qilinadi. Jumhur ulamolar esa vitrni mu'akkad sunnat deydi.",
+ misol:"Hanafiy kishi xufton va sunnatlaridan so'ng uch rakat vitrni qoldirmay o'qiydi."},
+{id:"c5",
+ ar:"أَتُعْطِينَ زَكَاةَ هَذَا؟ قَالَتْ: لا. قَالَ: أَيَسُرُّكِ أَنْ يُسَوِّرَكِ اللَّهُ بِهِمَا يَوْمَ الْقِيَامَةِ سِوَارَيْنِ مِنْ نَارٍ؟",
+ tr:"Rasululloh ﷺ qo'lida ikki oltin bilaguzuk bor ayolga: «Bularning zakotini berasanmi?» dedilar. U: «Yo'q», dedi. «Qiyomat kuni Alloh senga ular o'rniga ikki olov bilaguzuk taqishini xohlaysanmi?» dedilar.",
+ rawi:"Amr ibn Shu'ayb, otasidan, bobosidan (r.a.)", src:"Sunan Abu Dovud, 1563; Sunan at-Termiziy, 637", grade:"Ulamolar sanadi haqida turlicha fikrda",
+ sharh:"Hanafiy mazhabida ayollar taqadigan oltin-kumush taqinchoqlar nisobga yetsa, zakoti vojib, deyiladi va shu hadis dalil keltiriladi. Boshqa mazhablarda (jumhur) esa bu masala boshqacha hal qilinadi.",
+ misol:"Ayolning nisob miqdoridagi oltin zeb-ziynati bir yil davomida mulkida tursa, Hanafiy fatvoga ko'ra uning zakoti chiqariladi."},
+{id:"c6",
+ ar:"الأَيِّمُ أَحَقُّ بِنَفْسِهَا مِنْ وَلِيِّهَا، وَالْبِكْرُ تُسْتَأْذَنُ فِي نَفْسِهَا، وَإِذْنُهَا صُمَاتُهَا",
+ tr:"Bevaning (turmush qurgan ayolning) o'zi haqidagi qarori valiysidan ko'ra haqliroqdir. Boqira qizdan esa o'zi haqida ruxsat so'raladi, uning ruxsati — sukut saqlashidir.",
+ rawi:"Abdulloh ibn Abbos (r.a.)", src:"Sahih Muslim, 1421", grade:"Sahih (Muslim)",
+ sharh:"Hanafiy mazhabida oqila-balog'at ayol rozi bo'lmasa, uni zo'rlab turmushga berib bo'lmaydi; ko'pchilik Hanafiy ulamolari shu hadis va boshqa dalillarga tayanib ayolning o'z roziligini muhim hisoblaydi. Boshqa mazhablar valiyning rolini kuchliroq deb biladi.",
+ misol:"Ota qizini unamagan kishiga uzatmoqchi bo'lsa, qiz rozi bo'lmasa nikoh uning ixtiyorisiz o'tkazilishi to'g'ri emas."},
+{id:"c7",
+ ar:"الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
+ tr:"Musulmon — boshqa musulmonlar tilidan va qo'lidan omon bo'lgan kishidir.",
+ rawi:"Abdulloh ibn Amr (r.a.)", src:"Sahih al-Buxoriy, 10; Sahih Muslim, 40", grade:"Sahih (Buxoriy, Muslim)",
+ sharh:"Ulamolar bu hadisda iymonning kamoli ibodatdan tashqari, odamlar bilan muomalada ham ko'rinishini ta'kidlaydilar. Til bilan ozor (g'iybat, haqorat) va qo'l bilan ozor ikkalasi ham ta'qiqlangan.",
+ misol:"Ijtimoiy tarmoqda birovni haqoratlamaslik va ustidan kulmaslik — tilning zarardan saqlanishidir."},
+{id:"c8",
+ ar:"لا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
+ tr:"Sizlardan biringiz o'zi uchun yaxshi ko'rgan narsani birodari uchun ham yaxshi ko'rmaguncha, (kamolli) mo'min bo'lmaydi.",
+ rawi:"Anas ibn Molik (r.a.)", src:"Sahih al-Buxoriy, 13; Sahih Muslim, 45", grade:"Sahih (Buxoriy, Muslim)",
+ sharh:"Ulamolar «iymon bo'lmaydi» iborasini iymonning kamoli yo'qligi, deb tushuntiradilar. Bu — hasaddan tiyilish va xayrixohlikka da'vat.",
+ misol:"Hamkasbingiz yaxshi ish topsa, hasad qilmay chin dildan quvonish."},
+{id:"c9",
+ ar:"مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+ tr:"Kim Allohga va oxirat kuniga iymon keltirgan bo'lsa, yaxshi gapirsin yoki sukut qilsin.",
+ rawi:"Abu Hurayra (r.a.)", src:"Sahih al-Buxoriy, 6018; Sahih Muslim, 47", grade:"Sahih (Buxoriy, Muslim)",
+ sharh:"Bu hadis tilni nazorat qilishga undaydi. Ulamolar foydasiz gapdan ko'ra sukutni afzal ko'radilar.",
+ misol:"Janjalli suhbatda javob qaytarishdan oldin to'xtab, qaytadan o'ylab ko'rish."},
+{id:"c10",
+ ar:"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+ tr:"Sizlarning eng yaxshingiz — Qur'onni o'rganib, uni o'rgatgan kishidir.",
+ rawi:"Usmon ibn Affon (r.a.)", src:"Sahih al-Buxoriy, 5027", grade:"Sahih (Buxoriy)",
+ sharh:"Ulamolar Qur'on o'qish va o'rgatishning fazlini bu hadis bilan bayon qiladilar. O'rganish ham, o'rgatish ham ajrga sabab bo'ladi.",
+ misol:"Oilada biror kishi yosh farzandlarga Fotiha surasini to'g'ri o'qishni o'rgatsa."},
+{id:"c11",
+ ar:"الطُّهُورُ شَطْرُ الإِيمَانِ",
+ tr:"Poklik — iymonning yarmidir.",
+ rawi:"Abu Molik al-Ash'ariy (r.a.)", src:"Sahih Muslim, 223", grade:"Sahih (Muslim)",
+ sharh:"Ulamolar poklikni zohiriy (tahorat, kiyim, badan) va botiniy (qalbning pokligi) ma'nosida tushuntiradilar.",
+ misol:"Har namoz oldidan tahoratni to'liq va ehtiyotkorlik bilan olish."},
+{id:"c12",
+ ar:"إِنَّ اللَّهَ كَتَبَ الإِحْسَانَ عَلَى كُلِّ شَيْءٍ",
+ tr:"Albatta Alloh har bir narsada ehson (chiroyli, mukammal muomala)ni farz qildi.",
+ rawi:"Shaddod ibn Avs (r.a.)", src:"Sahih Muslim, 1955", grade:"Sahih (Muslim)",
+ sharh:"Ulamolar bu hadisni ibodat, kasb va hayvonlarga muomalagacha o'z ichiga olgan keng qoida deb tushuntiradilar.",
+ misol:"Ishni sifatli bajarish va mijozga halol xizmat ko'rsatish."}
+];
+
+/* ===== Ochiq Hadith API ===== */
+const BASE="https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1";
+const BOOKS=[
+ {k:"bukhari",n:"Sahih al-Buxoriy",max:7000},{k:"muslim",n:"Sahih Muslim",max:3000},
+ {k:"abudawud",n:"Sunan Abu Dovud",max:5000},{k:"tirmidhi",n:"Sunan at-Termiziy",max:3900},
+ {k:"nasai",n:"Sunan an-Nasoiy",max:5600},{k:"ibnmajah",n:"Sunan Ibn Moja",max:4300},
+ {k:"malik",n:"Muvatto Molik",max:1800}
+];
+let editions=null;
+
+const $=s=>document.querySelector(s);
+const area=$("#area"), nextBtn=$("#nextBtn");
+let mode="hanafi", current=null, queue=[], busy=false;
+let saved=[]; try{saved=JSON.parse(localStorage.getItem("hadis_saved")||"[]")}catch(e){}
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function toast(t){const x=$("#toast");x.textContent=t;x.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>x.classList.remove("on"),1800)}
+function persist(){try{localStorage.setItem("hadis_saved",JSON.stringify(saved))}catch(e){}$("#cnt").textContent=saved.length}
+const isSaved=id=>saved.some(h=>h.id===id);
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function skeleton(){area.innerHTML='<div class="card skel"><div style="width:90%"></div><div style="width:70%;height:30px"></div><div style="width:100%"></div><div style="width:80%"></div></div>'}
+
+function render(h,errMsg){
+  current=h;
+  const chips=[];
+  if(h.rawi)chips.push("👤 Roviy: "+h.rawi);
+  chips.push("📖 "+h.src);
+  if(h.grade)chips.push("✓ "+h.grade);
+  let html='<div class="card out" id="card">';
+  if(errMsg)html+='<div class="err">'+esc(errMsg)+'</div>';
+  if(h.ar)html+='<p class="ar">'+esc(h.ar)+'</p>';
+  html+='<p class="tr">'+esc(h.tr)+'</p>';
+  html+='<div class="chips">'+chips.map(c=>'<span class="chip">'+esc(c)+'</span>').join("")+'</div>';
+  if(h.sharh)html+='<div class="block"><h3>Ulamolar sharhi</h3><p>'+esc(h.sharh)+'</p></div>';
+  if(h.misol)html+='<div class="block ex"><h3>Misol</h3><p>'+esc(h.misol)+'</p></div>';
+  if(!h.sharh)html+='<p class="note">Bu hadis ochiq manbadan olindi, unga sharh va misol qo\'shilmagan. Sharhli hadislar «Hanafiy · sharhli» bo\'limida.</p>';
+  html+='<div class="actions"><button class="btn'+(isSaved(h.id)?' saved':'')+'" id="saveBtn">'+(isSaved(h.id)?'★ Saqlangan':'☆ Saqlash')+'</button><button class="btn" id="copyBtn">Nusxa olish</button><button class="btn" id="shareBtn">Ulashish</button></div></div>';
+  area.innerHTML=html;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>$("#card").classList.remove("out")));
+  $("#saveBtn").onclick=()=>toggleSave(h);
+  $("#copyBtn").onclick=()=>copyText(h);
+  $("#shareBtn").onclick=()=>share(h);
+}
+
+function plain(h){
+  return [h.ar,h.tr,h.rawi?"Roviy: "+h.rawi:"","Manba: "+h.src,h.sharh?"Sharh: "+h.sharh:"",h.misol?"Misol: "+h.misol:""].filter(Boolean).join("\n\n");
+}
+async function copyText(h){
+  try{await navigator.clipboard.writeText(plain(h));toast("Nusxa olindi")}
+  catch(e){const t=document.createElement("textarea");t.value=plain(h);document.body.appendChild(t);t.select();try{document.execCommand("copy");toast("Nusxa olindi")}catch(_){toast("Nusxa olib bo'lmadi")}t.remove()}
+}
+async function share(h){
+  if(navigator.share){try{await navigator.share({title:"Hadis",text:plain(h)})}catch(e){}}
+  else copyText(h);
+}
+function toggleSave(h){
+  if(isSaved(h.id)){saved=saved.filter(x=>x.id!==h.id);toast("Saqlanganlardan olib tashlandi")}
+  else{saved.unshift(h);toast("Saqlanganlarga qo'shildi")}
+  persist();
+  const b=$("#saveBtn");if(b){const s=isSaved(h.id);b.classList.toggle("saved",s);b.textContent=s?"★ Saqlangan":"☆ Saqlash"}
+  renderSaved();
+}
+
+/* ===== Saqlanganlar paneli ===== */
+function renderSaved(){
+  const box=$("#savedList");
+  if(!saved.length){box.innerHTML='<div class="empty">Hali hech narsa saqlanmagan.<br>Hadis ostidagi «☆ Saqlash» tugmasini bosing.</div>';return}
+  box.innerHTML=saved.map((h,i)=>'<div class="item">'+(h.ar?'<p class="ia">'+esc(h.ar)+'</p>':'')+'<p class="it">'+esc(h.tr)+'</p><div class="meta">'+esc((h.rawi?h.rawi+" · ":"")+h.src)+'</div><div class="row"><button data-c="'+i+'">Nusxa</button><button data-v="'+i+'">Ko\'rish</button><button class="del" data-d="'+i+'">O\'chirish</button></div></div>').join("");
+  box.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>copyText(saved[b.dataset.c]));
+  box.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{render(saved[b.dataset.v]);closeDrawer();window.scrollTo({top:0,behavior:"smooth"})});
+  box.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{saved.splice(b.dataset.d,1);persist();renderSaved();if(current){const s=$("#saveBtn");if(s){const v=isSaved(current.id);s.classList.toggle("saved",v);s.textContent=v?"★ Saqlangan":"☆ Saqlash"}}});
+}
+function openDrawer(){renderSaved();$("#drawer").classList.add("on");$("#ov").classList.add("on")}
+function closeDrawer(){$("#drawer").classList.remove("on");$("#ov").classList.remove("on")}
+$("#savedBtn").onclick=openDrawer;$("#closeBtn").onclick=closeDrawer;$("#ov").onclick=closeDrawer;
+
+/* ===== Internetdan hadis olish ===== */
+async function loadEditions(){
+  if(editions)return editions;
+  const r=await fetch(BASE+"/editions.json");if(!r.ok)throw new Error("editions");
+  editions=await r.json();return editions;
+}
+function pickEdition(ed,book,prefix){
+  const col=(ed[book]&&ed[book].collection)||[];
+  const f=col.find(c=>c.name.startsWith(prefix));return f?f.name:null;
+}
+async function fetchOne(ed,name,n){
+  const r=await fetch(BASE+"/editions/"+name+"/"+n+".json");
+  if(!r.ok)throw new Error("404");
+  const j=await r.json();if(!j.hadiths||!j.hadiths[0])throw new Error("bo'sh");return j.hadiths[0];
+}
+async function fetchWeb(){
+  const ed=await loadEditions();
+  for(let t=0;t<6;t++){
+    const b=BOOKS[Math.floor(Math.random()*BOOKS.length)];
+    const n=1+Math.floor(Math.random()*b.max);
+    const ara=pickEdition(ed,b.k,"ara-"), uzb=pickEdition(ed,b.k,"uzb-"), eng=pickEdition(ed,b.k,"eng-");
+    const trName=uzb||eng;
+    if(!ara||!trName)continue;
+    try{
+      const [a,tr]=await Promise.all([fetchOne(ed,ara,n),fetchOne(ed,trName,n)]);
+      if(!tr.text||tr.text.length<25)continue;
+      let text=tr.text.trim(), rawi="";
+      const m=text.match(/^Narrated\s+([^:]{2,70}):\s*/i);
+      if(m){rawi=m[1].trim();text=text.slice(m[0].length)}
+      const g=(tr.grades&&tr.grades[0])?(tr.grades[0].grade+" ("+tr.grades[0].name+")"):"";
+      const lang=uzb?"":" (inglizcha tarjima)";
+      return {id:"w-"+b.k+"-"+n,ar:a.text.trim(),tr:text+lang,rawi:rawi,src:b.n+", "+n+"-hadis",grade:g};
+    }catch(e){}
+  }
+  throw new Error("Hadis topilmadi");
+}
+
+/* ===== Yangi hadis ===== */
+async function next(){
+  if(busy)return;busy=true;nextBtn.disabled=true;
+  const old=$("#card");if(old)old.classList.add("out");
+  await new Promise(r=>setTimeout(r,250));
+  skeleton();
+  if(mode==="hanafi"){
+    if(!queue.length){queue=shuffle(CURATED);if(current&&queue[0].id===current.id)queue.push(queue.shift())}
+    await new Promise(r=>setTimeout(r,350));
+    render(queue.shift());
+  }else{
+    try{render(await fetchWeb())}
+    catch(e){
+      const h=CURATED[Math.floor(Math.random()*CURATED.length)];
+      render(h,"Internetga ulanib bo'lmadi yoki hadis olinmadi. Aloqani tekshiring. Hozircha ichki ro'yxatdan hadis ko'rsatildi.");
+    }
+  }
+  busy=false;nextBtn.disabled=false;
+}
+nextBtn.onclick=next;
+
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));t.classList.add("on");
+  mode=t.dataset.mode;queue=[];next();
+});
+
+/* Rejim */
+function setTheme(t){document.documentElement.setAttribute("data-theme",t);$("#themeBtn").textContent=t==="light"?"🌙":"☀️";try{localStorage.setItem("hadis_theme",t)}catch(e){}}
+$("#themeBtn").onclick=()=>setTheme(document.documentElement.getAttribute("data-theme")==="light"?"dark":"light");
+let th="dark";try{th=localStorage.getItem("hadis_theme")||"dark"}catch(e){}
+setTheme(th);
+
+persist();next();
+</script>
+</body>
+</html>
